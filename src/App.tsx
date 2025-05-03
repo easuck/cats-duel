@@ -10,7 +10,7 @@ const App = () => {
         cats: [],
         currentPair: 1,
         pairAmount: pairAmount,
-        currentRound: 1
+        currentRound: 1,
     });
     const headers = new Headers({
         'x-api-key': 'live_dXgE9ReJ2Il4WhFoBdCDZm9N2VhY5EsER6tENwMDvHW3jtl7lmMkk6JoEB1hc4lP'
@@ -27,10 +27,11 @@ const App = () => {
     }
 
     const getWinCats = () => {
-
+        setCurrentCats([roundInfo.cats[0], roundInfo.cats[1]]);
     }
 
     useEffect(() => {
+        console.log(roundInfo.cats);
         if (roundInfo.currentRound != 1){
             getWinCats();
         }
@@ -44,13 +45,11 @@ const App = () => {
             <h1>Раунд {roundInfo.currentPair} из {roundInfo.pairAmount}</h1>
             <CatCard 
                 setRoundInfo={setRoundInfo}
-                info={roundInfo}
                 pairAmount={roundInfo.pairAmount}
                 catInfo={currentCats[0]}
             />
             <CatCard 
                 setRoundInfo={setRoundInfo}
-                info={roundInfo}
                 pairAmount={roundInfo.pairAmount}
                 catInfo={currentCats[1]}
             />

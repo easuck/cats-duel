@@ -3,5 +3,5 @@ export interface IRoundInfo{
     cats: any[];
     currentPair: number;
     pairAmount: number;
-    currentRound: number
+    currentRound: number;
 }
