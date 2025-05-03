@@ -1,21 +1,28 @@
+import { IRoundInfo } from '../../models/IRoundInfo';
 import './styles.scss';
 
 type Props = {
-    info: any;
-    chosenCats: any[];
-    setChosenCats: React.Dispatch<React.SetStateAction<any[]>>;
-    getCats: any;
+    setRoundInfo: React.Dispatch<React.SetStateAction<IRoundInfo>>;
+    info: IRoundInfo;
+    pairAmount: number;
+    catInfo: any;
 }
 
-const CatCard = ({info, chosenCats, setChosenCats, getCats}: Props) => {
+const CatCard = ({setRoundInfo, info, pairAmount, catInfo}: Props) => {
     const handleClick = () => {
-        setChosenCats([...chosenCats, info]);
-        getCats();
+        console.log(info.currentPair)
+        setRoundInfo((prevInfo) => ({
+            ...prevInfo,
+            winCats: [...prevInfo.winCats, catInfo],
+            currentPair: info.currentPair == pairAmount ? 1 : prevInfo.currentPair + 1,
+            round: info.currentPair == pairAmount ? prevInfo.currentRound + 1 : prevInfo.currentRound, 
+            pairAmount: info.currentPair == pairAmount ? pairAmount / 2 : pairAmount
+        }));
     }
     return(
         <img 
             className='CatCard'
-            src={info?.url} 
+            src={catInfo?.url} 
             alt='catDuelist'
             onClick={handleClick}
         />
