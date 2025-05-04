@@ -17,21 +17,12 @@ const App = () => {
         pairAmount: pairAmount,
         currentRound: 1,
     });
-    const headers = new Headers({
-        'x-api-key': 'live_dXgE9ReJ2Il4WhFoBdCDZm9N2VhY5EsER6tENwMDvHW3jtl7lmMkk6JoEB1hc4lP'
-    });
-    const options = {
-        headers: headers
-    }
-    const getCats = () => {
-        fetch('https://api.thecatapi.com/v1/images/search?limit=2', options)
-        .then(response => response.json())
-        .then(data => {
-            setCurrentCats([data[0], data[1]]);
-        })
+    
+    const getWinCats = () => {
+        setCurrentCats([roundInfo.cats[0], roundInfo.cats[1]]);
     }
 
-    const getWinCats = () => {
+    const getNextCats = () => {
         setCurrentCats([roundInfo.cats[0], roundInfo.cats[1]]);
     }
 
@@ -44,7 +35,7 @@ const App = () => {
             getWinCats();
         }
         else{
-            !isStart && getCats();
+            !isStart && getNextCats();
         }
     }, [roundInfo])
 
@@ -55,6 +46,7 @@ const App = () => {
                 setRoundInfo={setRoundInfo}
                 pairAmount={pairAmount}
                 setStart={setIsStart}
+                setCurrentCats={setCurrentCats}
             />
         ) 
     }
@@ -69,7 +61,7 @@ const App = () => {
 
     return(
         <div className='App'>
-            <h1>Раунд {roundInfo.currentPair} из {roundInfo.pairAmount}</h1>
+            <h1>{roundInfo.pairAmount == 1 ? 'Финал' : `Раунд ${roundInfo.currentPair} из ${roundInfo.pairAmount}`}</h1>
             <div className='App_catsDuel'>
                 <CatCard 
                     setRoundInfo={setRoundInfo}
