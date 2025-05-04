@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import './styles.scss';
+import { IRoundInfo } from "../../models/IRoundInfo";
+
 
 type Props = {
     setPairAmount: any;
     pairAmount: number;
-    setRoundInfo: any;
+    setRoundInfo: React.Dispatch<React.SetStateAction<IRoundInfo>>;
     setStart: any;
 }
 
