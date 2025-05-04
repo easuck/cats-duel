@@ -9,15 +9,21 @@ type Props = {
     catsLoaded: any;
     setCatsLoaded: any;
     catId: string;
+    timer: any;
+    setSpinnerShown: any;
 }
 
-const CatCard = ({setRoundInfo, pairAmount, catInfo, handleLoad, catsLoaded, setCatsLoaded, catId}: Props) => {
+const CatCard = ({setRoundInfo, pairAmount, catInfo, handleLoad, catsLoaded, setCatsLoaded, catId, timer, setSpinnerShown}: Props) => {
     
     const handleClick = () => {
         setCatsLoaded({
             img1: true,
             img2: true
         })
+        timer.current = setTimeout(() => {
+            setSpinnerShown((prev: any) => !prev);
+        }, 300);
+        
         setRoundInfo(prev => ({
             ...prev,
             winCats: prev.currentPair == pairAmount ? [] : [...prev.winCats, catInfo],

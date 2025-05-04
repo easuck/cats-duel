@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CatCard from "./components/CatCard/CatCard";
 import { IRoundInfo } from "./models/IRoundInfo";
 import WinScreen from "./components/WinScreen/WinSCreen";
@@ -16,6 +16,7 @@ const App = () => {
         img1: true,
         img2: true
     });
+    const [isSpinnerShown, setSpinerShown] = useState<boolean>(true);
     const [roundInfo, setRoundInfo] = useState<IRoundInfo>({
         winCats: [],
         cats: [],
@@ -23,12 +24,16 @@ const App = () => {
         pairAmount: pairAmount,
         currentRound: 1,
     });
+    const timer = useRef(null);
+
 
     const handleLoad = (id: string) => {
-        setCatsLoaded(prev => ({
+        setCatsLoaded((prev: any) => ({
             ...prev,
             [id]: false
-        }))
+        }));
+        setSpinerShown(false);
+        clearTimeout(timer.current);
     }
     
     const getWinCats = () => {
@@ -77,7 +82,7 @@ const App = () => {
             <h1>{roundInfo.pairAmount == 1 ? 'Финал' : `Раунд ${roundInfo.currentPair} из ${roundInfo.pairAmount}`}</h1>
             <div className='App_catsDuel'>
                 {
-                    catsLoaded.img1 && catsLoaded.img2 && 
+                    isSpinnerShown && 
                     <ColorRing
                         visible={true}
                         height="80"
@@ -96,6 +101,8 @@ const App = () => {
                     catsLoaded={catsLoaded}
                     setCatsLoaded={setCatsLoaded}
                     catId='img1'
+                    timer={timer}
+                    setSpinnerShown={setSpinerShown}
                 />
                 <CatCard 
                     setRoundInfo={setRoundInfo}
@@ -105,6 +112,8 @@ const App = () => {
                     catsLoaded={catsLoaded}
                     setCatsLoaded={setCatsLoaded}
                     catId='img2'
+                    timer={timer}
+                    setSpinnerShown={setSpinerShown}
                 />
             </div>
         </div>
