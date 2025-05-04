@@ -10,7 +10,7 @@ const WinScreen = ({catInfo}: Props) => {
     }
     return(
         <div className='WinnerContainer'>
-            <h1>The winner!</h1>
+            <h1>Ваш победитель!</h1>
             <img src={catInfo.url}/>
             <button onClick={handleClick}>Попробовать еще раз :3</button>
         </div>
