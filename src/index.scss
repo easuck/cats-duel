@@ -6,3 +6,8 @@ html, body, div[id='root']{
     width: 100%;
     height: 100vh;
 }
+div[id='root']{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

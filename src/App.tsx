@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import CatCard from "./components/CatCard/CatCard";
 import { IRoundInfo } from "./models/IRoundInfo";
+import WinScreen from "./components/WinScreen/WinSCreen";
+import './App.scss';
+import StartScreen from "./components/StartScreen/StartScreen";
 
 const App = () => {
     const [pairAmount, setPairAmount] = useState<64 | 32 | 16 | 4>(4);
     const [currentCats, setCurrentCats] = useState<any[]>([]);
+    const [isFinish, setIsFinish] = useState<boolean>(false);
+    const [isStart, setIsStart] = useState<boolean>(true);
     const [roundInfo, setRoundInfo] = useState<IRoundInfo>({
         winCats: [],
         cats: [],
@@ -31,31 +36,55 @@ const App = () => {
     }
 
     useEffect(() => {
-        console.log(roundInfo.cats);
         if (roundInfo.currentRound != 1){
+            if (roundInfo.cats.length == 1){
+                setIsFinish(true);
+                return;
+            }
             getWinCats();
         }
         else{
-            getCats();
+            !isStart && getCats();
         }
     }, [roundInfo])
 
+    if(isStart){
+        return(
+            <StartScreen 
+                setPairAmount={setPairAmount} 
+                setRoundInfo={setRoundInfo}
+                pairAmount={pairAmount}
+                setStart={setIsStart}
+            />
+        ) 
+    }
+
+    if(isFinish){
+        return(
+            <WinScreen 
+                catInfo={roundInfo.cats[0]}
+            />
+        )  
+    }
+
     return(
-        <div>
+        <div className='App'>
             <h1>Раунд {roundInfo.currentPair} из {roundInfo.pairAmount}</h1>
-            <CatCard 
-                setRoundInfo={setRoundInfo}
-                pairAmount={roundInfo.pairAmount}
-                catInfo={currentCats[0]}
-            />
-            <CatCard 
-                setRoundInfo={setRoundInfo}
-                pairAmount={roundInfo.pairAmount}
-                catInfo={currentCats[1]}
-            />
+            <div className='App_catsDuel'>
+                <CatCard 
+                    setRoundInfo={setRoundInfo}
+                    pairAmount={roundInfo.pairAmount}
+                    catInfo={currentCats[0]}
+                />
+                <CatCard 
+                    setRoundInfo={setRoundInfo}
+                    pairAmount={roundInfo.pairAmount}
+                    catInfo={currentCats[1]}
+                />
+            </div>
         </div>
-        
     )    
+    
 }
 
 export default App;
