@@ -24,7 +24,7 @@ const App = () => {
         pairAmount: pairAmount,
         currentRound: 1,
     });
-    const timer = useRef(null);
+    const timer = useRef(undefined);
 
 
     const handleLoad = (id: string) => {
