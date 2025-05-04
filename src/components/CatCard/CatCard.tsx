@@ -5,10 +5,25 @@ type Props = {
     setRoundInfo: React.Dispatch<React.SetStateAction<IRoundInfo>>;
     pairAmount: number;
     catInfo: any;
+    handleLoad: any;
+    catsLoaded: any;
+    setCatsLoaded: any;
+    catId: string;
+    timer: any;
+    setSpinnerShown: any;
 }
 
-const CatCard = ({setRoundInfo, pairAmount, catInfo}: Props) => {
+const CatCard = ({setRoundInfo, pairAmount, catInfo, handleLoad, catsLoaded, setCatsLoaded, catId, timer, setSpinnerShown}: Props) => {
+    
     const handleClick = () => {
+        setCatsLoaded({
+            img1: true,
+            img2: true
+        })
+        timer.current = setTimeout(() => {
+            setSpinnerShown((prev: any) => !prev);
+        }, 300);
+        
         setRoundInfo(prev => ({
             ...prev,
             winCats: prev.currentPair == pairAmount ? [] : [...prev.winCats, catInfo],
@@ -19,12 +34,16 @@ const CatCard = ({setRoundInfo, pairAmount, catInfo}: Props) => {
         }));
     }
     return(
-        <img 
-            className='CatCard'
-            src={catInfo?.url} 
-            alt='catDuelist'
-            onClick={handleClick}
-        />
+        <>
+            <img 
+                className='CatCard'
+                style={catsLoaded.img1 || catsLoaded.img2 ? {display: 'none'} : {display: 'block'}}
+                src={catInfo?.url} 
+                alt='catDuelist'
+                onClick={handleClick}
+                onLoad={() => handleLoad(catId)}
+            /> 
+        </>
     )
 }
 
